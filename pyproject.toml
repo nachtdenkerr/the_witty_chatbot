@@ -1,0 +1,26 @@
+[build-system]
+requires = ["uv_build >= 0.11.7, <0.12.0"]
+build-backend = "uv_build"
+
+[project]
+name = "the-witty-senior"
+version = "0.0.1"
+dependencies = [
+  "pytest",
+  "fastapi",
+  "uvicorn",
+]
+requires-python = ">= 3.8"
+authors = [
+  {name = "Thuy Nga Dinh", email = "dinhnga.1509@outlook.com"},
+]
+readme = "README.md"
+
+[tool.ruff]
+line-length = 88
+
+[tool.black]
+line-length = 88
+
+[tool.mypy]
+strict = true
