@@ -2,9 +2,9 @@
 Tutor service
 """
 
-import the_witty_senior.services.llm_service as llm_service
-import the_witty_senior.services.session_service as session_service
-import the_witty_senior.core.config as config
+import the_witty_tutor.services.llm_service as llm_service
+import the_witty_tutor.services.session_service as session_service
+import the_witty_tutor.core.config as config
 
 def handle_submission(request, session):
     """

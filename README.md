@@ -1,4 +1,4 @@
-# The witty senior
+# The witty tutor
 
 ## 1. What is this about?
 

@@ -3,7 +3,7 @@ Sevices related to session
 """
 
 import uuid
-from the_witty_senior.models.session import SessionState
+from the_witty_tutor.models.session import SessionState
 
 session_dict = {}
 

@@ -6,7 +6,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import os
 import random
-import the_witty_senior.core.config as config
+import the_witty_tutor.core.config as config
 
 load_dotenv(os.path.join(os.getcwd(), ".env"))
 

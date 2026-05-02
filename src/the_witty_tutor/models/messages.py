@@ -8,5 +8,8 @@ class RequestSubmission(BaseModel):
     """
     Code
     """
+    id: uuid.UUID | None = None
     session_id: uuid.UUID | None = None
+    timestamp: str
+    role: str
     body: str

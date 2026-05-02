@@ -3,8 +3,8 @@ Module docstring
 """
 
 from fastapi import APIRouter
-from the_witty_senior.services import session_service, tutor_service
-from the_witty_senior.models.attempt import RequestSubmission
+from the_witty_tutor.services import session_service, tutor_service
+from the_witty_tutor.models.messages import RequestSubmission
 
 router = APIRouter()
 

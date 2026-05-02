@@ -11,6 +11,8 @@ class SessionState(BaseModel):
     """
     session_id: uuid.UUID
     user_id: str
+    create_at: str
+    last_active: str
     topic: str
     game_level: int | None = None
     history: str
