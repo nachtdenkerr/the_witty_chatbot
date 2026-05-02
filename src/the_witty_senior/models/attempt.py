@@ -4,9 +4,9 @@ API Model to read input from user
 
 from pydantic import BaseModel
 
-class CodeSubmission(BaseModel):
+class RequestSubmission(BaseModel):
     """
     Code
     """
     task_id: int
-    code: str
+    body: str
