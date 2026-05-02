@@ -1,3 +1,8 @@
+"""
+Sevices related to session
+"""
+
+import uuid
 from the_witty_senior.models.session import SessionState
 
 session_dict = {}
@@ -6,7 +11,7 @@ def create_session() -> SessionState:
     """
     Create new session with no history
     """
-    new_session = SessionState(session_id=0,
+    new_session = SessionState(session_id=uuid.uuid4(),
                                user_id="temp_usr",
                                topic="",
                                game_level=0,
@@ -14,7 +19,7 @@ def create_session() -> SessionState:
                                summary="")
     return new_session
 
-def get_session(session_id: int) -> SessionState:
+def get_session(session_id: uuid.UUID) -> SessionState:
     """
     Retrieve exsiting session based on ID
     """
@@ -27,5 +32,5 @@ def update_session(session, user_prompt, llm_response):
     """
     Retain history to improve model response
     """
-    session.history.append("User prompt: " + user_prompt + "\n")
-    session.history.append("LLM response: " + llm_response + "\n")
+    session.history += ("User prompt: " + user_prompt + "\n")
+    session.history += ("LLM response: " + llm_response + "\n")

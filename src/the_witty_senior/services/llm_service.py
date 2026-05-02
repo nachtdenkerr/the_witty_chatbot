@@ -1,9 +1,14 @@
 """
 Defined interactions with LLM
 """
+
 from openai import OpenAI
+from dotenv import load_dotenv
+import os
 import random
 import the_witty_senior.core.config as config
+
+load_dotenv(os.path.join(os.getcwd(), ".env"))
 
 client = OpenAI()
 
@@ -46,7 +51,7 @@ def get_user_intent(request):
     Use AI to generate the user intent
     """
     if config.LLM_MOCK_ENABLED:
-        intent_mode = random.choice(list(range(6)))
+        intent_mode = random.choice(list(range(5)))
         return config.intent[intent_mode]
 
     intent_response = client.responses.create(
@@ -67,31 +72,32 @@ def get_user_intent(request):
     )
     return intent_response.output_text
 
-def get_llm_response(request, strategy):
+def get_llm_response(history, request, strategy):
     """
     Get LLM response with pre-defined response strategy based on user intent
     """
     if config.LLM_MOCK_ENABLED:
         if strategy is QuestionStrategy:
-            return "What exactly do you know about the topic?"
+            response = "What exactly do you know about the topic?"
         elif strategy is AnalogyStrategy:
-            return "Think of it like the two goat story."
+            response =  "Think of it like the two goat story."
         elif strategy is CongratsStratery:
-            return "See, I know you can do it."
+            response =  "See, I know you can do it."
         elif strategy is RedirectStratery:
-            return "I do not think that is related to our learning topic."
+            response =  "I do not think that is related to our learning topic."
         elif strategy is ExplanationStrategy:
-            return "I have no idea what you are talking about."
+            response =  "I have no idea what you are talking about."
         elif strategy is HintStratergy:
-            return "Maybe check Google for 5 minutes then return."
+            response =  "Maybe check Google for 5 minutes then return."
         else:
-            return "SOS"
+            response = "SOS"
+        return response
 
     response = client.responses.create(
         model=config.OPENAI_MODEL,
         reasoning=strategy.reasoning,
         instructions=strategy.instructions,
-        input=request
+        input=history + " " + request
     )
     return response.output_text
 

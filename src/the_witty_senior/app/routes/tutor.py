@@ -16,6 +16,7 @@ def tutoring(request: RequestSubmission):
     print(request)
     if request.session_id is None:
         session = session_service.create_session()
+        print (session.session_id)
         session_service.session_dict[session.session_id] = session
     else:
         try:
@@ -24,10 +25,10 @@ def tutoring(request: RequestSubmission):
             session = session_service.create_session()
             session_service.session_dict[session.session_id] = session
     llm_response = tutor_service.handle_submission(request.body, session=session)
-    print(llm_response)
     json_response = {
-        "session_id": request.session_id,
+        "session_id": session.session_id,
         "intent": llm_response[0],
         "response": llm_response[2],
     }
+    print(session.history)
     return json_response

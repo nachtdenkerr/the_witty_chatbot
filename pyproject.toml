@@ -9,6 +9,9 @@ dependencies = [
   "pytest",
   "fastapi",
   "uvicorn",
+  "openai>=2.2.0",
+  "dotenv>=0.9.9",
+  "uuid>=1.30",
 ]
 requires-python = ">= 3.8"
 authors = [
