@@ -8,7 +8,9 @@ class SessionState(BaseModel):
     """
     Information that persist throughout the session or until event-based or time-based changes happen.
     """
+    session_id: int
+    user_id: str
     topic: str
-    current_task_progression: float
-    game_level: int
-    user_preference: str
+    game_level: int | None = None
+    history: str
+    summary: str

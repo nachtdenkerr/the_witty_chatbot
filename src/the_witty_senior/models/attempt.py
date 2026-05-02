@@ -8,5 +8,5 @@ class RequestSubmission(BaseModel):
     """
     Code
     """
-    task_id: int
+    session_id: int | None = None
     body: str

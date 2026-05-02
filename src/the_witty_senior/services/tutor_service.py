@@ -2,46 +2,33 @@
 Tutor service
 """
 import os
-from openai import OpenAI
 from dotenv import load_dotenv
-from the_witty_senior.services.llm_service import QuestionStrategy, HintStratergy, AnalogyStrategy, ExplanationStrategy, CongratsStratery, RedirectStratery, get_llm_response
+import the_witty_senior.services.llm_service as llm_service
+import the_witty_senior.services.session_service as session_service
+import the_witty_senior.core.config as config
 
-def handle_submission(request):
+def handle_submission(request, session):
     """
     Decide response trategy
     """
-    intent=["information_request", "confused", "partially_understand", "needs_example", "mostly_correct"]
-    model="gpt-5.5"
     load_dotenv(os.path.join(os.getcwd(), ".env"))
-    client = OpenAI()
-    intent_response = client.responses.create(
-        model=model,
-        reasoning={"effort": "medium"},
-        instructions="""You are an intent classifier.
-                        Allowed intents:
-                        - information_request
-                        - confused
-                        - partially_understand
-                        - needs_example
-                        - mostly_correct
-                        - out_of_scope
 
-                        Return ONLY one intent.
-                        "with confidence value in the range 0 to 1.""",
-        input=request,
-    )
-    user_intent = intent_response.output_text
-    print(user_intent)
-    if intent[0] in user_intent:
-        strategy = ExplanationStrategy()
-    elif intent[1] in user_intent:
-        strategy = QuestionStrategy()
-    elif intent[2] in user_intent:
-        strategy = HintStratergy()
-    elif intent[3] in user_intent:
-        strategy = AnalogyStrategy()
-    elif intent[4] in user_intent:
-        strategy = CongratsStratery()
+    user_intent = llm_service.get_user_intent(request=request)
+
+    if config.intent[0] in user_intent:
+        strategy = llm_service.ExplanationStrategy()
+    elif config.intent[1] in user_intent:
+        strategy = llm_service.QuestionStrategy()
+    elif config.intent[2] in user_intent:
+        strategy = llm_service.HintStratergy()
+    elif config.intent[3] in user_intent:
+        strategy = llm_service.AnalogyStrategy()
+    elif config.intent[4] in user_intent:
+        strategy = llm_service.CongratsStratery()
     else:
-        strategy = RedirectStratery()
-    return user_intent, strategy.__class__(), get_llm_response(client=client, request=request, model=model, strategy=strategy)
+        strategy = llm_service.RedirectStratery()
+
+    llm_response = llm_service.get_llm_response(request=request, strategy=strategy)
+    session_service.update_session(session, request, llm_response)
+
+    return user_intent, strategy.__class__(), llm_response
